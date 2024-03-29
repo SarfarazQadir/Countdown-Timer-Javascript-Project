@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.countdown {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.countdown:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+#timer {
+    font-size: 36px;
+    margin-bottom: 20px;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1 class="btn btn-success" style="text-align: center; align-items: center; justify-content: center; display: flex;">Developer Super League TASK Completed By Team Desi Developers</h1>
+    <div class="container">
+        <div class="countdown text-center">
+            <h1 class="mb-4">Countdown Timer</h1>
+            <div id="timer"></div>
+            <div class="form-group">
+                <label for="datetime">Enter target date and time:</label>
+                <input type="datetime-local" class="form-control" id="datetime">
+            </div>
+            <button class="btn btn-primary" onclick="startCountdown()">Start Countdown</button>
+        </div>
+    </div>
+    <script>
+       // Function to start the countdown timer
+function startCountdown() {
+    // Get the target date and time from the input field
+    const targetDate = new Date(document.getElementById('datetime').value).getTime();
+
+    // Check if the entered date is valid
+    if (isNaN(targetDate)) {
+        alert("Please enter a valid date and time.");
+        return;
+    }
+
+    // Get the HTML element where the timer will be displayed
+    const countdownElement = document.getElementById('timer');
+
+    // Function to update the timer every second
+    function updateTimer() {
+        // Get the current date and time
+        const now = new Date().getTime();
+
+        // Calculate the time remaining until the target date
+        const distance = targetDate - now;
+
+        // Check if the countdown has expired
+        if (distance <= 0) {
+            clearInterval(timerInterval); // Stop the timer
+            countdownElement.innerHTML = "Countdown expired"; // Display message
+            return;
+        }
+
+        // Calculate the days, hours, minutes, and seconds remaining
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the remaining time in the HTML element
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Call the updateTimer function immediately to display initial countdown
+    updateTimer();
+
+    // Update the timer every second and store the interval ID
+    const timerInterval = setInterval(updateTimer, 1000);
+}
+    </script>
+</body>
+</html>
